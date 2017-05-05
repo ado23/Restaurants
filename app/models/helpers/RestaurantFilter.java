@@ -30,6 +30,17 @@ public class RestaurantFilter {
 	 */
 	public String sortBy;
 
+	/**
+	* Rating and price
+	 */
+	public Integer rating;
+	public Integer price;
+
+	/**
+	 * Cuisines
+	 */
+	public String cuisines[];
+
 	private RestaurantFilter() { }
 
 	/**
@@ -109,5 +120,35 @@ public class RestaurantFilter {
 			this.sortBy = "name";
 		}
 		return this;
+	}
+
+	/**
+	 * Set rating filter
+	 */
+	public RestaurantFilter setRating(Integer rating) throws ServiceException {
+		if (rating < 0 || rating > 4) {
+			throw new ServiceException("Rating must be a Positive Integer between 0 and 4");
+		} else {
+			this.rating = rating;
+		}
+		return this;
+	}
+
+	/**
+	 * Set price filter
+	 */
+	public RestaurantFilter setPrice(Integer price) throws ServiceException {
+		if (price < 0 || price > 4) {
+			throw new ServiceException("Price must be a Positive Integer between 0 and 4");
+		} else {
+			this.price = price;
+		}
+		return this;
+	}
+
+	public  RestaurantFilter setCuisines(String cuisines[]) {
+		this.cuisines = cuisines;
+
+		return  this;
 	}
 }

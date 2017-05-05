@@ -35,7 +35,7 @@ export default Ember.Controller.extend({
     showFilters() {
       this.send('priceFilterChanged', this.get('priceFilter'));
       this.send('ratingFilterChanged', this.get('ratingFilter'));
-
+	  
       this.send('showPopover', '#searchFilters', '#searchSort');
     },
 
@@ -45,17 +45,18 @@ export default Ember.Controller.extend({
 
     radioFilterChanged(selector, value) {
       $(selector).each(function (index, element) {
-        if (element.value === 0) { return; }
-
+        if (element.value === 0) { return; } 
         $(element).parent().css('color', element.value <= value ? '#fd6f60' : 'rgba(19, 29, 36, 0.2)');
       });
     },
 
     priceFilterChanged(value) {
+		this.set('priceFilter', value);
       this.send('radioFilterChanged', '#price-filter-control input', value);
     },
 
     ratingFilterChanged(value) {
+		this.set('ratingFilter', value);
       this.send('radioFilterChanged', '#rating-filter-control input', value);
     },
 

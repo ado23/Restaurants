@@ -18,6 +18,7 @@ import java.sql.Time;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.OptionalDouble;
 import java.util.UUID;
@@ -364,6 +365,13 @@ public class Restaurant extends BaseModel {
 		return cuisines;
 	}
 
+	public List<String> getCuisinesString() {
+		List<String> l = new ArrayList<>();
+		for(Cuisine c : cuisines)
+			l.add(c.getName());
+		return l;
+	}
+
 	/**
 	 * Sets cuisines.
 	 *
@@ -424,8 +432,26 @@ public class Restaurant extends BaseModel {
 	 * @return the average rating
 	 */
 	public Double getAverageRating() {
+		/*
 		OptionalDouble average = this.reviews.stream().mapToInt(RestaurantReview::getRating).average();
 		return average.isPresent() ? average.getAsDouble() : 0D;
+		*/
+		OptionalDouble rating, newerRating, olderRating;
+
+		Integer num_of_rt = getNumberOfRatings();
+		Integer separator = (int) (num_of_rt*0.2);
+
+		List<RestaurantReview> newerReviews = getReviews().subList(0, separator);		//taking last 20% reviews
+		List<RestaurantReview> olderReviews = getReviews().subList(separator, num_of_rt);	//taking other 80% reviews
+
+		newerRating = newerReviews.stream().mapToInt(RestaurantReview::getRating).average();
+		newerRating = newerRating.isPresent()? newerRating : OptionalDouble.of(0D);
+
+		olderRating = olderReviews.stream().mapToInt(RestaurantReview::getRating).average();
+		olderRating = olderRating.isPresent()? olderRating : OptionalDouble.of(0D);
+
+		//newer and older reviews contribute with 50% of the rating each
+		return newerRating.getAsDouble() * 0.5D + olderRating.getAsDouble() * 0.5D;
 	}
 
 	/**

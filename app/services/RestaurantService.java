@@ -19,9 +19,7 @@ import org.hibernate.transform.Transformers;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -90,6 +88,10 @@ public class RestaurantService extends BaseService {
 			criteria.add(Restrictions.eq("city.id", restaurantFilter.cityId));
 		}
 
+		if (restaurantFilter.price != 0) {
+			criteria.add(Restrictions.eq("priceRange", restaurantFilter.price));
+		}
+
 		Long numberOfPages = ((Long) criteria.setProjection(Projections.rowCount()).uniqueResult()) / restaurantFilter.pageSize;
 
 		criteria.setProjection(null)
@@ -103,6 +105,25 @@ public class RestaurantService extends BaseService {
 		criteria.addOrder(Order.asc("name"));
 
 		List<Restaurant> restaurants = criteria.list();
+
+		for (Iterator<Restaurant> iter = restaurants.listIterator(); iter.hasNext(); ) {
+			Restaurant r = iter.next();
+			if (r.getAverageRating() < restaurantFilter.rating) {
+				iter.remove();
+				continue;
+			}
+
+			if(restaurantFilter.cuisines != null) {
+				for(String s : restaurantFilter.cuisines) {
+					if(!(r.getCuisinesString().contains(s))) {
+						iter.remove();
+						break;
+					}
+				}
+			}
+
+		}
+
 
 		switch (restaurantFilter.sortBy) {
 			case "rating":

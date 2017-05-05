@@ -24,9 +24,15 @@ public class RestaurantController extends BaseController {
 	private static final String NAME_FILTER = "nameFilter";
 	private static final String CITY_FILTER = "cityFilter";
 	private static final String SORT_BY = "sortBy";
+	private static final String PRICE = "priceFilter";
+	private static final String RATING = "ratingFilter";
+	private static final String CUISINES = "cuisineFilter";
 
 	private static final Integer DEFAULT_PAGE_NUMBER = 1;
 	private static final Integer DEFAULT_PAGE_SIZE = 9;
+	private static final Integer DEFAULT_PRICE = 0;
+	private static final Integer DEFAULT_RATING = 0;
+
 
 	/**
 	 * Sets service.
@@ -80,8 +86,11 @@ public class RestaurantController extends BaseController {
 						.setPageNumber(getQueryInt(request().getQueryString(PAGE_NUMBER), DEFAULT_PAGE_NUMBER))
 						.setPageSize(getQueryInt(request().getQueryString(PAGE_SIZE), DEFAULT_PAGE_SIZE))
 						.setNameFilter(request().getQueryString(NAME_FILTER))
+						.setPrice(getQueryInt(request().getQueryString(PRICE), DEFAULT_PRICE))
+						.setRating(getQueryInt(request().getQueryString(RATING), DEFAULT_RATING))
 						.setCityFilter(!StringUtil.isNullOrEmpty(cityFilter) ? UUID.fromString(cityFilter) : null)
 						.setSort(request().getQueryString(SORT_BY))
+						.setCuisines(request().getQueryString(CUISINES).isEmpty() ? null : request().queryString().get(CUISINES))
 		));
 	}
 
