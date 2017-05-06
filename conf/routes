@@ -10,6 +10,7 @@ POST    /api/v1/login                                       controllers.UserCont
 POST    /api/v1/logout                                      controllers.UserController.logout
 POST    /api/v1/register                                    controllers.UserController.register
 
+GET     /api/v1/admin/getStatistics                         controllers.AdministratorController.getStatistics
 GET     /api/v1/admin/getAllUsers                           controllers.UserController.getAllUsers
 GET     /api/v1/admin/getUser/:id                           controllers.UserController.getUser(id: String)
 PATCH   /api/v1/admin/editUser                              controllers.UserController.editUser

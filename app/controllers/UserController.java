@@ -136,4 +136,5 @@ public class UserController extends BaseController {
 	public Result deleteUser(String id) {
 		return wrapForAdmin(() -> this.service.deleteUser(UUID.fromString(id)));
 	}
+
 }

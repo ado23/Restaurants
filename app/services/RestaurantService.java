@@ -11,10 +11,7 @@ import models.tables.Restaurant;
 import models.tables.RestaurantReview;
 import models.tables.User;
 import org.hibernate.Criteria;
-import org.hibernate.criterion.MatchMode;
-import org.hibernate.criterion.Order;
-import org.hibernate.criterion.Projections;
-import org.hibernate.criterion.Restrictions;
+import org.hibernate.criterion.*;
 import org.hibernate.transform.Transformers;
 
 import javax.inject.Inject;
@@ -92,6 +89,7 @@ public class RestaurantService extends BaseService {
 			criteria.add(Restrictions.eq("priceRange", restaurantFilter.price));
 		}
 
+
 		Long numberOfPages = ((Long) criteria.setProjection(Projections.rowCount()).uniqueResult()) / restaurantFilter.pageSize;
 
 		criteria.setProjection(null)
@@ -108,11 +106,6 @@ public class RestaurantService extends BaseService {
 
 		for (Iterator<Restaurant> iter = restaurants.listIterator(); iter.hasNext(); ) {
 			Restaurant r = iter.next();
-			if (r.getAverageRating() < restaurantFilter.rating) {
-				iter.remove();
-				continue;
-			}
-
 			if(restaurantFilter.cuisines != null) {
 				for(String s : restaurantFilter.cuisines) {
 					if(!(r.getCuisinesString().contains(s))) {

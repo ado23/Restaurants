@@ -39,7 +39,7 @@ public class RestaurantFilter {
 	/**
 	 * Cuisines
 	 */
-	public String cuisines[];
+	public String cuisines[] = null;
 
 	private RestaurantFilter() { }
 

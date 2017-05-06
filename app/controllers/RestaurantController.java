@@ -90,7 +90,8 @@ public class RestaurantController extends BaseController {
 						.setRating(getQueryInt(request().getQueryString(RATING), DEFAULT_RATING))
 						.setCityFilter(!StringUtil.isNullOrEmpty(cityFilter) ? UUID.fromString(cityFilter) : null)
 						.setSort(request().getQueryString(SORT_BY))
-						.setCuisines(request().getQueryString(CUISINES).isEmpty() ? null : request().queryString().get(CUISINES))
+						.setCuisines(!StringUtil.isNullOrEmpty(request().getQueryString(CUISINES)) ?
+								request().queryString().get(CUISINES) : null)
 		));
 	}
 
