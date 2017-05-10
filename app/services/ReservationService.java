@@ -123,7 +123,7 @@ public class ReservationService extends BaseService {
 					.list();
 
 			freeTableIds.addAll(potentialTableIds.stream().filter(potentialTableId ->
-				reservedTables.stream()
+				!reservedTables.stream()
 						.map(table -> table.getTable().getId())
 						.collect(Collectors.toList())
 						.contains(potentialTableId)
